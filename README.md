@@ -19,7 +19,14 @@ The primary goal of this project was to rescue and modernize linguistic data fro
 > 👉 **[Access the Dataset on Hugging Face](https://huggingface.co/datasets/carpenterbb/i-speak-kanoe)**
 
 ---
+## 📡 API Access
 
+This database exposes a public **RESTful API** hosted on Supabase. You can access the data programmatically without downloading CSV files.
+
+**Base API URL:**
+> `https://mtzqswessyrrbulntblx.supabase.co`
+
+*Note: Use standard PostgREST patterns to query tables (e.g., `/rest/v1/view_dicionario_completo`).*
 ## ⚙️ Technical Architecture
 
 The database was designed using **PostgreSQL** (via Supabase) employing a **Hybrid SQL/NoSQL approach** to handle the complexity and sparsity typical of linguistic fieldwork data.
@@ -66,6 +73,54 @@ Managing duplicate bibliographic entries (e.g., "Cartilha Vol II" vs "Cartilha V
     * `04_functions.sql`: Custom search functions (`buscar_kanoe`).
 * 
 
+## 🗺️ Database Schema (ER Diagram)
+
+Visual representation of the relationships between tables in the Kanoê-DB:
+
+```mermaid
+erDiagram
+    PALAVRA ||--|{ SIGNIFICADO : "has senses"
+    PALAVRA ||--|{ PRONUNCIA : "has forms"
+    PALAVRA ||--o{ FRASE : "exemplified by"
+    
+    BIBLIOGRAFIA ||--o{ SIGNIFICADO : "source of"
+    BIBLIOGRAFIA ||--o{ FRASE : "source of"
+
+    PALAVRA {
+        bigint id_palavra PK
+        text termo_kanoe
+        text classe_gramatical
+        jsonb tags_nosql
+    }
+
+    SIGNIFICADO {
+        bigint id_sentido PK
+        text traducao_primaria
+        text nota_cultural
+        bigint fk_id_bibliografia FK
+    }
+
+    FRASE {
+        bigint id_frase PK
+        text texto_kanoe
+        text traducao_pt
+        bigint fk_id_palavra FK
+        bigint fk_id_bibliografia FK
+    }
+
+    PRONUNCIA {
+        bigint id_forma PK
+        text ipa
+        text grafia
+    }
+
+    BIBLIOGRAFIA {
+        bigint id_fonte PK
+        text titulo
+        text tipo
+        text arquivo_ref
+    }
+```
 ---
 
 ## 🚀 How to Replicate
@@ -83,6 +138,8 @@ If you wish to run a local instance of this database:
 
 * **[Gabrielly Gomes]:** Data Engineering, SQL Modeling, Curatorship, and Standardization.
 * **[Iago Aragão]:** Data Collection, Transcription, and Quality Assurance.
+
+doi = { 10.57967/hf/7042 }
 
 ---
 
