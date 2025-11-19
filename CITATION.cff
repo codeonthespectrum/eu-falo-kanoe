@@ -1,0 +1,13 @@
+```yaml
+cff-version: 1.2.0
+message: "If you use the engineering scripts or methodology from this repository, please cite it as below."
+authors:
+- family-names: "ALVES GOMES"
+  given-names: "GABRIELLY"
+- family-names: "DE SOUSA ARAGÃO"
+  given-names: "IAGO"
+title: "Kanoê Language Database: Engineering & Migration Scripts"
+version: 1.0.0
+date-released: 2025-09-24
+url: "https://github.com/codeonthespectrum/eu-falo-kanoe"
+license: CC
